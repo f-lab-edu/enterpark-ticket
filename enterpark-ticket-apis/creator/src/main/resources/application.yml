@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    include:
+      - infra
+---
+spring:
+  config:
+    activate:
+      on-profile: local
