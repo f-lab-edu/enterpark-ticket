@@ -13,5 +13,4 @@ include(
     "enterpark-ticket-batch",
     "enterpark-ticket-core",
     "enterpark-ticket-core:domain",
-    "enterpark-ticket-core:infra",
 )
