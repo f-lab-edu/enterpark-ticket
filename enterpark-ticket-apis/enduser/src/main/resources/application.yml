@@ -3,6 +3,19 @@ spring:
     active: local
     include:
       - domain
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+    auth:
+      jwt:
+        secret-key: ${JWT_SECRET_KEY}
+        access-exp: ${JWT_ACCESS_EXP}
+        refresh-exp: ${JWT_REFRESH_EXP}
 ---
 spring:
   config:
