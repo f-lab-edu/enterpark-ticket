@@ -37,6 +37,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 logging:
   level:
     org.hibernate.SQL: debug
@@ -54,6 +57,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
 logging:
   level:
     org.hibernate.SQL: error
