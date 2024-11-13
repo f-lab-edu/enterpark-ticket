@@ -4,10 +4,16 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
+@Table(
+    uniqueConstraints = [UniqueConstraint(
+        name = "PROVIDER_OID_UNIQUE",
+        columnNames = ["provider", "oid"]
+    )]
+)
 class User(
 
-    @Column(unique = true)
-    var oid: Long, // 회원 번호
+    @Embedded
+    var oAuthInfo: OAuthInfo,
 
     @Column(nullable = false, length = 20)
     var name: String,
