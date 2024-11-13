@@ -4,6 +4,8 @@ import com.example.enterparkticket.apis.enduser.auth.dto.request.RegisterUserReq
 import com.example.enterparkticket.apis.enduser.auth.dto.response.RegisterUserResponse
 import com.example.enterparkticket.apis.enduser.config.jwt.JwtTokenProvider
 import com.example.enterparkticket.apis.enduser.config.oauth.client.KakaoClient
+import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
+import com.example.enterparkticket.core.domain.user.domain.OAuthProvider
 import com.example.enterparkticket.core.domain.user.service.UserDomainService
 import org.springframework.stereotype.Service
 
@@ -17,8 +19,9 @@ class RegisterUseCase(
     suspend fun registerUser(code: String, request: RegisterUserRequest): RegisterUserResponse {
         val accessToken = kakaoClient.getToken(code).accessToken
         val userInfo = kakaoClient.getUserInfo(accessToken)
+        val oAuthInfo = OAuthInfo.of(OAuthProvider.KAKAO, userInfo.id)
         val user = userDomainService.registerUser(
-            userInfo.id,
+            oAuthInfo,
             userInfo.kakaoAccount.email,
             request.toRegisterUserDto()
         )

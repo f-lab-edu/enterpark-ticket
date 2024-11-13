@@ -1,5 +1,6 @@
 package com.example.enterparkticket.core.domain.user.service
 
+import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.User
 import com.example.enterparkticket.core.domain.user.repository.UserRepository
 import com.example.enterparkticket.core.domain.user.service.dto.RegisterUserDto
@@ -10,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 class UserDomainService(private val userRepository: UserRepository) {
 
     @Transactional
-    fun registerUser(oid: Long, email: String, dto: RegisterUserDto): User {
-        val user = dto.toUserEntity(oid, email)
+    fun registerUser(oAuthInfo: OAuthInfo, email: String, dto: RegisterUserDto): User {
+        val user = dto.toUserEntity(oAuthInfo, email)
         userRepository.save(user)
         return user
     }
