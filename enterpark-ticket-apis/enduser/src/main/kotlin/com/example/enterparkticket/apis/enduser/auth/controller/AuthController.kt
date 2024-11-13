@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 class AuthController(private val registerUseCase: RegisterUseCase) {
 
     @PostMapping("/oauth/kakao/register")
-    suspend fun kakaoOAuthRegisterUser(
+    fun kakaoOAuthRegisterUser(
         @RequestParam("code") code: String,
         @Valid @RequestBody request: RegisterUserRequest,
     ): ResponseEntity<RegisterUserResponse> {
