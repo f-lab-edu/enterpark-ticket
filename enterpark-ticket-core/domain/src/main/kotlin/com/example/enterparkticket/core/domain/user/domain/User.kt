@@ -1,5 +1,6 @@
 package com.example.enterparkticket.core.domain.user.domain
 
+import com.example.enterparkticket.core.domain.common.BaseTimeEntity
 import jakarta.persistence.*
 import java.time.LocalDate
 
@@ -46,4 +47,4 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     var id: Long? = null,
-)
+) : BaseTimeEntity()
