@@ -6,6 +6,6 @@ import java.util.*
 class SecurityAuditorAware(private val auditorProvider: AuditorProvider) : AuditorAware<String> {
 
     override fun getCurrentAuditor(): Optional<String> {
-        return auditorProvider.getCurrentAuditor()
+        return Optional.ofNullable(auditorProvider.getCurrentAuditor())
     }
 }
