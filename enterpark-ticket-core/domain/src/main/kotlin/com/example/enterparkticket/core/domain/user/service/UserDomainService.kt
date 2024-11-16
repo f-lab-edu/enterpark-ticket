@@ -2,6 +2,7 @@ package com.example.enterparkticket.core.domain.user.service
 
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.User
+import com.example.enterparkticket.core.domain.user.exception.AlreadyRegisterUserException
 import com.example.enterparkticket.core.domain.user.repository.UserRepository
 import com.example.enterparkticket.core.domain.user.service.dto.RegisterUserDto
 import org.springframework.stereotype.Service
@@ -20,7 +21,7 @@ class UserDomainService(private val userRepository: UserRepository) {
 
     private fun validateUser(oAuthInfo: OAuthInfo) {
         if (userRepository.existsByOAuthInfo(oAuthInfo)) {
-            throw RuntimeException("이미 존재하는 회원입니다.") // todo exception
+            throw AlreadyRegisterUserException()
         }
     }
 }

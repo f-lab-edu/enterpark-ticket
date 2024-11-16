@@ -2,6 +2,8 @@ package com.example.enterparkticket.apis.enduser.config.jwt
 
 import com.example.enterparkticket.apis.enduser.config.jwt.dto.AccessTokenInfo
 import com.example.enterparkticket.apis.enduser.config.jwt.dto.JwtToken
+import com.example.enterparkticket.core.domain.common.exeption.ExpiredTokenException
+import com.example.enterparkticket.core.domain.common.exeption.InvalidTokenException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
@@ -50,7 +52,7 @@ class JwtTokenProvider(
                 return AccessTokenInfo.of(claims)
             }
         }
-        throw RuntimeException("유효하지 않은 토큰입니다.") // todo exception
+        throw InvalidTokenException()
     }
 
     private fun getClaims(token: String): Claims? {
@@ -61,9 +63,9 @@ class JwtTokenProvider(
                 .parseSignedClaims(token)
                 .payload
         } catch (e: ExpiredJwtException) {
-            throw RuntimeException("만료된 토큰입니다.") // todo exception
+            throw ExpiredTokenException()
         } catch (e: Exception) {
-            throw RuntimeException("유효하지 않은 토큰입니다.") // todo exception
+            throw InvalidTokenException()
         }
     }
 

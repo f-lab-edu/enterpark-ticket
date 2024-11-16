@@ -6,6 +6,7 @@ import com.example.enterparkticket.apis.enduser.config.oauth.dto.KakaoOAuthInfoE
 import com.example.enterparkticket.apis.enduser.config.oauth.dto.KakaoTokenRequest
 import com.example.enterparkticket.apis.enduser.config.oauth.dto.KakaoUserInfoResponse
 import com.example.enterparkticket.apis.enduser.config.oauth.properties.KakaoOAuthProperties
+import com.example.enterparkticket.core.domain.common.exeption.InvalidEmailException
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.OAuthProvider
 import org.springframework.stereotype.Service
@@ -33,7 +34,7 @@ class KakaoOAuthHelper(
 
     private fun validateEmail(userInfo: KakaoUserInfoResponse) {
         if (!userInfo.kakaoAccount.isEmailValid || !userInfo.kakaoAccount.isEmailVerified) {
-            throw RuntimeException("유효하지 않은 이메일 주소입니다.") // todo exception
+            throw InvalidEmailException()
         }
     }
 
