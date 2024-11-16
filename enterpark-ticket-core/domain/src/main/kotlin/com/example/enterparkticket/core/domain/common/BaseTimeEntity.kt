@@ -18,4 +18,11 @@ abstract class BaseTimeEntity(
 
     @LastModifiedDate
     private var lastModifiedDate: LocalDateTime? = null,
-)
+
+    private var deletedDate: LocalDateTime? = null,
+) {
+
+    fun deleteSoftly() {
+        deletedDate = LocalDateTime.now()
+    }
+}
