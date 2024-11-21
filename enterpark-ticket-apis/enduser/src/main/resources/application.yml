@@ -16,6 +16,11 @@ spring:
         secret-key: ${JWT_SECRET_KEY}
         access-exp: ${JWT_ACCESS_EXP}
         refresh-exp: ${JWT_REFRESH_EXP}
+---
+spring:
+  config:
+    activate:
+      on-profile: local
 logging:
   level:
     com.example.enterparkticket.apis.* : debug
@@ -23,12 +28,10 @@ logging:
 spring:
   config:
     activate:
-      on-profile: local
----
-spring:
-  config:
-    activate:
       on-profile: dev
+logging:
+  level:
+    com.example.enterparkticket.apis.* : debug
 ---
 spring:
   config:

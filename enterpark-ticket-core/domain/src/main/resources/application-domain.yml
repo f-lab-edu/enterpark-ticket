@@ -14,6 +14,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
   flyway:
     enabled: false
 logging:
@@ -37,6 +39,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
   flyway:
     enabled: true
     baseline-on-migrate: true
@@ -44,6 +48,7 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+    com.zaxxer.hikari.pool.HikariPool: debug
 ---
 spring:
   config:
@@ -57,9 +62,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+    open-in-view: false
   flyway:
-    enabled: true
-    baseline-on-migrate: true
+    enabled: false
 logging:
   level:
     org.hibernate.SQL: error
