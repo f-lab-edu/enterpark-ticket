@@ -10,4 +10,6 @@ object EnterparkTicketConsts {
     const val INTERNAL_SERVER_ERROR = 500
 
     const val KAKAO_TOKEN_PREFIX = "kakaoToken:"
+    const val BEARER = "Bearer "
+    const val KAKAO_AK = "KakaoAK "
 }

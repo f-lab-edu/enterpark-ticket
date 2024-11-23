@@ -6,6 +6,8 @@ import com.example.enterparkticket.apis.enduser.config.oauth.dto.KakaoOAuthInfoE
 import com.example.enterparkticket.apis.enduser.config.oauth.dto.KakaoTokenRequest
 import com.example.enterparkticket.apis.enduser.config.oauth.dto.KakaoUserInfoResponse
 import com.example.enterparkticket.apis.enduser.config.oauth.properties.KakaoOAuthProperties
+import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.BEARER
+import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.KAKAO_AK
 import com.example.enterparkticket.core.domain.common.exeption.InvalidEmailException
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.OAuthProvider
@@ -39,13 +41,14 @@ class KakaoOAuthHelper(
         return userInfo
     }
 
+    fun unlinkUser(targetId: Long) {
+        kakaoUserClient.unlinkUser(KAKAO_AK + kakaoOAuthProperties.adminKey, targetId)
+        kakaoTokenService.deleteToken(targetId)
+    }
+
     private fun validateEmail(userInfo: KakaoUserInfoResponse) {
         if (!userInfo.kakaoAccount.isEmailValid || !userInfo.kakaoAccount.isEmailVerified) {
             throw InvalidEmailException()
         }
-    }
-
-    companion object {
-        const val BEARER = "Bearer "
     }
 }
