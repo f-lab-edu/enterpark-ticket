@@ -34,8 +34,16 @@ class UserDomainService(private val userRepository: UserRepository) {
         }
     }
 
+    @Transactional
+    fun withdrawUser(userId: Long): User {
+        val user = findUserById(userId)
+        user.withdrawUser()
+        return user
+    }
+
     private fun validateUser(oAuthInfo: OAuthInfo) {
-        if (userRepository.existsByOAuthInfo(oAuthInfo)) {
+        userRepository.findByOAuthInfo(oAuthInfo)?.let {
+            it.validateState()
             throw AlreadyRegisterUserException()
         }
     }
