@@ -8,7 +8,8 @@ import com.example.enterparkticket.core.domain.common.exeption.ErrorDescription
 enum class UserErrorCode(private val status: Int, private val message: String) : BaseErrorCode {
 
     USER_ALREADY_REGISTER(CONFLICT, "이미 존재하는 회원입니다."),
-    USER_NOT_FOUND(NOT_FOUND, "존재하지 않는 회원입니다.");
+    USER_NOT_FOUND(NOT_FOUND, "존재하지 않는 회원입니다."),
+    KAKAO_TOKEN_NOT_FOUND(NOT_FOUND, "해당 회원의 카카오 토큰이 존재하지 않습니다.");
 
     override fun getErrorDescription(): ErrorDescription {
         return ErrorDescription(name, message, status)
