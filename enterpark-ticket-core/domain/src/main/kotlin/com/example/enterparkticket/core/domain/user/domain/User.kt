@@ -1,6 +1,7 @@
 package com.example.enterparkticket.core.domain.user.domain
 
 import com.example.enterparkticket.core.domain.common.BaseTimeEntity
+import com.example.enterparkticket.core.domain.user.exception.ReRegisterUserException
 import jakarta.persistence.*
 import java.time.LocalDate
 
@@ -54,5 +55,16 @@ class User(
         this.email = email
         this.phoneNumber = phoneNumber
         this.address = address
+    }
+
+    fun withdrawUser() {
+        state = StateType.SUSPENDED
+        deleteSoftly()
+    }
+
+    fun validateState() {
+        if (state == StateType.SUSPENDED) {
+            throw ReRegisterUserException()
+        }
     }
 }
