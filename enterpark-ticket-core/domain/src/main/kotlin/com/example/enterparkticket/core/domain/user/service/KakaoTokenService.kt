@@ -29,8 +29,11 @@ class KakaoTokenService(private val redisTemplate: RedisTemplate<String, String>
 
     fun deleteToken(oAuthId: Long) {
         val key = KAKAO_TOKEN_PREFIX + oAuthId
-        if (!redisTemplate.delete(key)) {
-            throw DeleteKakaoTokenException()
+        if (redisTemplate.hasKey(key)) {
+            val isDeleted = redisTemplate.delete(key)
+            if (!isDeleted) {
+                throw DeleteKakaoTokenException()
+            }
         }
     }
 }
