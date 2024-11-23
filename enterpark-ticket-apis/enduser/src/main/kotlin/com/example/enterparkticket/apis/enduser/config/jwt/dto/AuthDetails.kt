@@ -23,3 +23,7 @@ class AuthDetails(
         return userId
     }
 }
+
+fun AuthDetails.toUserId(): Long {
+    return this.username.toLong()
+}
