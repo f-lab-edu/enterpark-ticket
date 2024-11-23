@@ -9,6 +9,7 @@ import com.example.enterparkticket.apis.enduser.config.oauth.properties.KakaoOAu
 import com.example.enterparkticket.core.domain.common.exeption.InvalidEmailException
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.OAuthProvider
+import com.example.enterparkticket.core.domain.user.service.KakaoTokenService
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,17 +17,23 @@ class KakaoOAuthHelper(
     private val kakaoOAuthProperties: KakaoOAuthProperties,
     private val kakaoTokenClient: KakaoTokenClient,
     private val kakaoUserClient: KakaoUserClient,
+    private val kakaoTokenService: KakaoTokenService,
 ) {
 
     fun getOAuthInfoEmail(code: String): KakaoOAuthInfoEmailDto {
         val request = KakaoTokenRequest.of(kakaoOAuthProperties, code)
-        val accessToken = kakaoTokenClient.getToken(request).accessToken
-        val userInfo = getUserInfo(accessToken)
+        val token = kakaoTokenClient.getToken(request)
+        val userInfo = getUserInfo(token.accessToken)
         val oAuthInfo = OAuthInfo.of(OAuthProvider.KAKAO, userInfo.id)
+        kakaoTokenService.saveToken(oAuthInfo.oid, token.toKakaoTokenDto())
         return KakaoOAuthInfoEmailDto.of(oAuthInfo, userInfo.kakaoAccount.email)
     }
 
-    private fun getUserInfo(accessToken: String): KakaoUserInfoResponse {
+    fun getToken(oAuthId: Long): String {
+        return kakaoTokenService.getToken(oAuthId)
+    }
+
+    fun getUserInfo(accessToken: String): KakaoUserInfoResponse {
         val userInfo = kakaoUserClient.getUserInfo(BEARER + accessToken)
         validateEmail(userInfo)
         return userInfo
