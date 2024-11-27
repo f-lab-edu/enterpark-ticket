@@ -4,6 +4,7 @@ import com.example.enterparkticket.core.domain.config.jpa.JpaConfig
 import com.example.enterparkticket.core.domain.config.jpa.JpaConfig.Companion.PRIMARY_ENTITY_MANAGER_FACTORY
 import com.example.enterparkticket.core.domain.config.jpa.JpaConfig.Companion.PRIMARY_TRANSACTION_MANAGER
 import com.example.enterparkticket.core.domain.user.domain.User
+import com.example.enterparkticket.core.domain.user.service.UserDomainService
 import jakarta.persistence.EntityManagerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
@@ -38,6 +39,7 @@ class UserStateDeletedJobConfig(
     private val transactionManager: PlatformTransactionManager,
 
     private val jobRepository: JobRepository,
+    private val userDomainService: UserDomainService,
 ) {
 
     @Bean(JOB_NAME)
@@ -73,7 +75,7 @@ class UserStateDeletedJobConfig(
     @Bean(BEAN_PREFIX + "itemProcessor")
     fun itemProcessor(): ItemProcessor<User, User> {
         return ItemProcessor {
-            it.deleteUser()
+            userDomainService.deleteUser(it)
         }
     }
 

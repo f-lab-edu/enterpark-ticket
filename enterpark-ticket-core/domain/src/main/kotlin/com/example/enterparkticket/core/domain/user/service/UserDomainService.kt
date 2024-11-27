@@ -1,5 +1,6 @@
 package com.example.enterparkticket.core.domain.user.service
 
+import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.BATCH_TRANSACTION_MANAGER
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.User
 import com.example.enterparkticket.core.domain.user.exception.AlreadyRegisterUserException
@@ -39,6 +40,11 @@ class UserDomainService(private val userRepository: UserRepository) {
         val user = findUserById(userId)
         user.withdrawUser()
         return user
+    }
+
+    @Transactional(BATCH_TRANSACTION_MANAGER)
+    fun deleteUser(user: User): User {
+        return user.deleteUser()
     }
 
     private fun validateUser(oAuthInfo: OAuthInfo) {

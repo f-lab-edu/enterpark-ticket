@@ -12,4 +12,6 @@ object EnterparkTicketConsts {
     const val KAKAO_TOKEN_PREFIX = "kakaoToken:"
     const val BEARER = "Bearer "
     const val KAKAO_AK = "KakaoAK "
+
+    const val BATCH_TRANSACTION_MANAGER = "batchTransactionManager"
 }
