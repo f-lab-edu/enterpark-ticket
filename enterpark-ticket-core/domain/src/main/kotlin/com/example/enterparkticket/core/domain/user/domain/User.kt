@@ -67,4 +67,9 @@ class User(
             throw ReRegisterUserException()
         }
     }
+
+    fun deleteUser(): User {
+        state = StateType.DELETED
+        return this
+    }
 }
