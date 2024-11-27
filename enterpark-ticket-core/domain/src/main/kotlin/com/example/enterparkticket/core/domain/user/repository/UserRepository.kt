@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository : JpaRepository<User, Long> {
 
-    fun existsByOAuthInfo(oAuthInfo: OAuthInfo): Boolean
+    fun findByOAuthInfo(oAuthInfo: OAuthInfo): User?
 }

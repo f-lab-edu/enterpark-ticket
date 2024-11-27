@@ -3,6 +3,10 @@ spring:
     active: local
     include:
       - domain
+  batch:
+    job:
+      name: ${job.name:NONE}
+    chunk-size: ${CHUNK_SIZE:1000}
 ---
 spring:
   config:

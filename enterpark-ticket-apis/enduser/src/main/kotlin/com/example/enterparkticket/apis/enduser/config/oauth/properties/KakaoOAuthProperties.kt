@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class KakaoOAuthProperties(
     val clientId: String,
     val redirectUri: String,
-    val clientSecret: String
+    val clientSecret: String,
+    val adminKey: String,
 )
