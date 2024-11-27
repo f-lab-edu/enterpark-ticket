@@ -13,5 +13,6 @@ object EnterparkTicketConsts {
     const val BEARER = "Bearer "
     const val KAKAO_AK = "KakaoAK "
 
+    const val PRIMARY_TRANSACTION_MANAGER = "primaryTransactionManager"
     const val BATCH_TRANSACTION_MANAGER = "batchTransactionManager"
 }

@@ -1,8 +1,8 @@
 package com.example.enterparkticket.core.domain.config.jpa
 
+import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.PRIMARY_TRANSACTION_MANAGER
 import com.example.enterparkticket.core.domain.config.EnterparkTicketConfig
 import com.example.enterparkticket.core.domain.config.jpa.JpaConfig.Companion.PRIMARY_ENTITY_MANAGER_FACTORY
-import com.example.enterparkticket.core.domain.config.jpa.JpaConfig.Companion.PRIMARY_TRANSACTION_MANAGER
 import jakarta.persistence.EntityManagerFactory
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.domain.EntityScan
@@ -74,6 +74,5 @@ class JpaConfig(
         const val PRIMARY_PERSISTENCE_UNIT = "primaryPersistenceUnit"
         const val PRIMARY_DATASOURCE = "primaryDataSource"
         const val PRIMARY_ENTITY_MANAGER_FACTORY = "primaryEntityManagerFactory"
-        const val PRIMARY_TRANSACTION_MANAGER = "primaryTransactionManager"
     }
 }

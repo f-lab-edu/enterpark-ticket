@@ -7,6 +7,7 @@ import java.time.LocalDate
 
 @Entity
 @Table(
+    name = "`user`",
     uniqueConstraints = [UniqueConstraint(
         name = "PROVIDER_OID_UNIQUE",
         columnNames = ["provider", "oid"]

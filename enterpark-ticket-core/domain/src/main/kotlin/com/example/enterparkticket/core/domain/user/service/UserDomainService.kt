@@ -1,6 +1,7 @@
 package com.example.enterparkticket.core.domain.user.service
 
 import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.BATCH_TRANSACTION_MANAGER
+import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.PRIMARY_TRANSACTION_MANAGER
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.User
 import com.example.enterparkticket.core.domain.user.exception.AlreadyRegisterUserException
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class UserDomainService(private val userRepository: UserRepository) {
 
-    @Transactional
+    @Transactional(PRIMARY_TRANSACTION_MANAGER)
     fun registerUser(oAuthInfo: OAuthInfo, email: String, dto: RegisterUserDto): User {
         validateUser(oAuthInfo)
         val user = dto.toUserEntity(oAuthInfo, email)
@@ -23,7 +24,7 @@ class UserDomainService(private val userRepository: UserRepository) {
         return user
     }
 
-    @Transactional
+    @Transactional(PRIMARY_TRANSACTION_MANAGER)
     fun updateUser(userId: Long, dto: UpdateUserDto) {
         val user = findUserById(userId)
         user.updateUser(dto.name, dto.email, dto.phoneNumber, dto.address)
@@ -35,7 +36,7 @@ class UserDomainService(private val userRepository: UserRepository) {
         }
     }
 
-    @Transactional
+    @Transactional(PRIMARY_TRANSACTION_MANAGER)
     fun withdrawUser(userId: Long): User {
         val user = findUserById(userId)
         user.withdrawUser()
