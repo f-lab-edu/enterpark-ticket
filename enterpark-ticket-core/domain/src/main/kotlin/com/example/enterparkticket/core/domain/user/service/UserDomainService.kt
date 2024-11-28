@@ -3,12 +3,14 @@ package com.example.enterparkticket.core.domain.user.service
 import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
 import com.example.enterparkticket.core.domain.user.domain.User
 import com.example.enterparkticket.core.domain.user.exception.AlreadyRegisterUserException
+import com.example.enterparkticket.core.domain.user.exception.NotFoundUserException
 import com.example.enterparkticket.core.domain.user.repository.UserRepository
 import com.example.enterparkticket.core.domain.user.service.dto.RegisterUserDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class UserDomainService(private val userRepository: UserRepository) {
 
     @Transactional
@@ -19,8 +21,12 @@ class UserDomainService(private val userRepository: UserRepository) {
         return user
     }
 
+    fun loginUser(oAuthInfo: OAuthInfo): User {
+        return userRepository.findByOAuthInfo(oAuthInfo) ?: throw NotFoundUserException()
+    }
+
     private fun validateUser(oAuthInfo: OAuthInfo) {
-        if (userRepository.existsByOAuthInfo(oAuthInfo)) {
+        userRepository.findByOAuthInfo(oAuthInfo)?.let {
             throw AlreadyRegisterUserException()
         }
     }
