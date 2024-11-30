@@ -116,3 +116,11 @@ class NotFoundUserException : EnterparkTicketException(UserErrorCode.USER_NOT_FO
 
 - DTO는 각 클래스마다 파일을 분리해서 생성한다.
 - DTO 내부에 `of()`, `from()`, `to()` 메소드를 사용해서 생성한다.
+
+### branch 규칙
+- `{feat, chore 등}/#{이슈 번호}-이름_이름`
+- 브랜치 이름이 길어질 경우, _(언더바)를 사용한다.
+
+### commit 규칙
+- 제목(Subject) - `#{이슈 번호} [feat, chore 등] 커밋 메시지`
+- 커밋 메시지가 길어질 경우, 본문(Body)도 함께 사용한다.
