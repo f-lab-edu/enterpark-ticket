@@ -22,6 +22,10 @@ class UserDomainService(private val userRepository: UserRepository) {
         return user
     }
 
+    fun loginUser(oAuthInfo: OAuthInfo): User {
+        return userRepository.findByOAuthInfo(oAuthInfo) ?: throw NotFoundUserException()
+    }
+
     @Transactional
     fun updateUser(userId: Long, dto: UpdateUserDto) {
         val user = findUserById(userId)
@@ -35,7 +39,7 @@ class UserDomainService(private val userRepository: UserRepository) {
     }
 
     private fun validateUser(oAuthInfo: OAuthInfo) {
-        if (userRepository.existsByOAuthInfo(oAuthInfo)) {
+        userRepository.findByOAuthInfo(oAuthInfo)?.let {
             throw AlreadyRegisterUserException()
         }
     }
