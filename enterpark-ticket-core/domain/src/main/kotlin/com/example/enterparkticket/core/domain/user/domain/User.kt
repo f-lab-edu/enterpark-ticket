@@ -47,4 +47,12 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     var id: Long? = null,
-) : BaseTimeEntity()
+) : BaseTimeEntity() {
+
+    fun updateUser(name: String, email: String, phoneNumber: String, address: String?) {
+        this.name = name
+        this.email = email
+        this.phoneNumber = phoneNumber
+        this.address = address
+    }
+}

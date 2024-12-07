@@ -6,6 +6,7 @@ import com.example.enterparkticket.core.domain.user.exception.AlreadyRegisterUse
 import com.example.enterparkticket.core.domain.user.exception.NotFoundUserException
 import com.example.enterparkticket.core.domain.user.repository.UserRepository
 import com.example.enterparkticket.core.domain.user.service.dto.RegisterUserDto
+import com.example.enterparkticket.core.domain.user.service.dto.UpdateUserDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -23,6 +24,18 @@ class UserDomainService(private val userRepository: UserRepository) {
 
     fun loginUser(oAuthInfo: OAuthInfo): User {
         return userRepository.findByOAuthInfo(oAuthInfo) ?: throw NotFoundUserException()
+    }
+
+    @Transactional
+    fun updateUser(userId: Long, dto: UpdateUserDto) {
+        val user = findUserById(userId)
+        user.updateUser(dto.name, dto.email, dto.phoneNumber, dto.address)
+    }
+
+    fun findUserById(userId: Long): User {
+        return userRepository.findById(userId).orElseThrow {
+            NotFoundUserException()
+        }
     }
 
     private fun validateUser(oAuthInfo: OAuthInfo) {

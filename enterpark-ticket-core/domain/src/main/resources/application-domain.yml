@@ -18,6 +18,11 @@ spring:
     open-in-view: false
   flyway:
     enabled: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
 logging:
   level:
     org.hibernate.SQL: debug
