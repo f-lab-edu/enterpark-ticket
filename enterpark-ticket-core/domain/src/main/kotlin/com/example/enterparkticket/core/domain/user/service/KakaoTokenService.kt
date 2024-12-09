@@ -1,6 +1,7 @@
 package com.example.enterparkticket.core.domain.user.service
 
 import com.example.enterparkticket.core.domain.common.consts.EnterparkTicketConsts.KAKAO_TOKEN_PREFIX
+import com.example.enterparkticket.core.domain.user.exception.DeleteKakaoTokenException
 import com.example.enterparkticket.core.domain.user.exception.NotFoundKakaoTokenException
 import com.example.enterparkticket.core.domain.user.service.dto.KakaoTokenDto
 import org.springframework.data.redis.core.RedisTemplate
@@ -23,6 +24,16 @@ class KakaoTokenService(private val redisTemplate: RedisTemplate<String, String>
             value
         } else {
             throw NotFoundKakaoTokenException()
+        }
+    }
+
+    fun deleteToken(oAuthId: Long) {
+        val key = KAKAO_TOKEN_PREFIX + oAuthId
+        if (redisTemplate.hasKey(key)) {
+            val isDeleted = redisTemplate.delete(key)
+            if (!isDeleted) {
+                throw DeleteKakaoTokenException()
+            }
         }
     }
 }
