@@ -25,6 +25,11 @@ class UserDomainService(private val userRepository: UserRepository) {
     }
 
     @Transactional(PRIMARY_TRANSACTION_MANAGER)
+    fun loginUser(oAuthInfo: OAuthInfo): User {
+        return userRepository.findByOAuthInfo(oAuthInfo) ?: throw NotFoundUserException()
+    }
+
+    @Transactional(PRIMARY_TRANSACTION_MANAGER)
     fun updateUser(userId: Long, dto: UpdateUserDto) {
         val user = findUserById(userId)
         user.updateUser(dto.name, dto.email, dto.phoneNumber, dto.address)
