@@ -1,6 +1,6 @@
 spring:
   datasource:
-    primary:
+    test:
       jdbc-url: jdbc:tc:mysql:8.0.36:///test_db?TC_INITSCRIPT=db/init.sql
       driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:

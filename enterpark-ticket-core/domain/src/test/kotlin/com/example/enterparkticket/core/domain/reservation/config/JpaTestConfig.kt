@@ -32,7 +32,7 @@ class JpaTestConfig(
 ) {
 
     @Bean
-    @ConfigurationProperties(prefix = PRIMARY_CONFIGURATION_PROPERTIES_PREFIX)
+    @ConfigurationProperties(prefix = TEST_CONFIGURATION_PROPERTIES_PREFIX)
     fun primaryDataSource(): DataSource {
         return DataSourceBuilder.create().build()
     }
@@ -61,7 +61,7 @@ class JpaTestConfig(
     }
 
     companion object {
-        const val PRIMARY_CONFIGURATION_PROPERTIES_PREFIX = "spring.datasource.primary"
+        const val TEST_CONFIGURATION_PROPERTIES_PREFIX = "spring.datasource.test"
         const val PRIMARY_PERSISTENCE_UNIT = "primaryPersistenceUnit"
         const val PRIMARY_DATASOURCE = "primaryDataSource"
         const val PRIMARY_ENTITY_MANAGER_FACTORY = "primaryEntityManagerFactory"
