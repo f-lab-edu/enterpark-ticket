@@ -3,6 +3,7 @@ package com.example.enterparkticket.apis.enduser.config.exception
 import com.example.enterparkticket.apis.enduser.config.exception.dto.ErrorResponse
 import com.example.enterparkticket.core.domain.common.exeption.EnterparkTicketException
 import com.example.enterparkticket.core.domain.common.exeption.GlobalErrorCode.SERVER_ERROR
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.ConstraintViolationException
 import org.springframework.http.HttpHeaders
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
+
+private val kLogger = KotlinLogging.logger {}
 
 @RestControllerAdvice
 class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
@@ -82,6 +85,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         ex: Exception,
         request: HttpServletRequest
     ): ResponseEntity<ErrorResponse> {
+        kLogger.error { ex.message }
         val errorDescription = SERVER_ERROR.getErrorDescription()
         val response = ErrorResponse(errorDescription.code, errorDescription.message)
         return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(response)
