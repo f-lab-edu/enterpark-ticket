@@ -49,8 +49,9 @@ subprojects {
         testImplementation("io.kotest:kotest-property:5.8.1")
         testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
         testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:2.0.2")
-        testImplementation("org.testcontainers:testcontainers:1.20.4")
-        testImplementation("org.testcontainers:junit-jupiter:1.20.4")
+        testImplementation("org.testcontainers:testcontainers")
+        testImplementation("org.testcontainers:junit-jupiter")
+        testImplementation("org.testcontainers:mysql")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 }
