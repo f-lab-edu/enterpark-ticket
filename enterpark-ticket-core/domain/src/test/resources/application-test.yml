@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    primary:
+      jdbc-url: jdbc:tc:mysql:8.0.36:///test_db?TC_INITSCRIPT=db/init.sql
+      driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 1234
+  flyway:
+    enabled: false
