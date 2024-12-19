@@ -7,8 +7,9 @@ import jakarta.persistence.*
 @Entity
 class Seat(
 
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 15)
-    var grade: String,
+    var grade: GradeType,
 
     @Column(nullable = false, length = 15)
     var seatNumber: String,

@@ -6,6 +6,7 @@ import com.example.enterparkticket.core.domain.reservation.domain.TicketReceiptT
 import com.example.enterparkticket.core.domain.reservation.repository.ReservationRepository
 import com.example.enterparkticket.core.domain.reservation.service.dto.CreateReservationDto
 import com.example.enterparkticket.core.domain.reservation.service.dto.CreateReservationSeatDto
+import com.example.enterparkticket.core.domain.seat.domain.GradeType
 import com.example.enterparkticket.core.domain.seat.domain.Place
 import com.example.enterparkticket.core.domain.seat.domain.Seat
 import com.example.enterparkticket.core.domain.seat.repository.PlaceRepository
@@ -48,7 +49,7 @@ class ReservationConcurrencyTest @Autowired constructor(
         val place = Place("고척스카이돔", "서울특별시 구로구 경인로 430")
         placeRepository.save(place)
         val seats = listOf("A1", "B1", "C1", "D1", "E1", "F1", "G1", "H1", "I1", "J1", "K1").map {
-            Seat("S", it, 100000, 100L, place)
+            Seat(GradeType.S, it, 100000, 100L, place)
         }
         seatRepository.saveAll(seats)
 
