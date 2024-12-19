@@ -41,8 +41,17 @@ subprojects {
     dependencies {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("io.github.oshai:kotlin-logging-jvm:7.0.0")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+        testImplementation("io.kotest:kotest-runner-junit5:5.8.1")
+        testImplementation("io.kotest:kotest-assertions-core:5.8.1")
+        testImplementation("io.kotest:kotest-property:5.8.1")
+        testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
+        testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:2.0.2")
+        testImplementation("org.testcontainers:testcontainers")
+        testImplementation("org.testcontainers:junit-jupiter")
+        testImplementation("org.testcontainers:mysql")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 }
