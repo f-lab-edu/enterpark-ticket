@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS performance;
 DROP TABLE IF EXISTS schedule;
 DROP TABLE IF EXISTS casting;
 DROP TABLE IF EXISTS place;
+DROP TABLE IF EXISTS grade_seat;
 DROP TABLE IF EXISTS seat;
 DROP TABLE IF EXISTS reservation;
 
@@ -78,21 +79,31 @@ CREATE TABLE place
     created_by         VARCHAR(255) NULL,
     last_modified_by   VARCHAR(255) NULL
 );
+CREATE TABLE grade_seat
+(
+    grade_seat_id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+    grade              VARCHAR(15)  NOT NULL,
+    seat_count         INT          NOT NULL,
+    price              INT          NOT NULL,
+    performance_id     BIGINT       NOT NULL,
+    created_date       TIMESTAMP(6) NULL,
+    last_modified_date TIMESTAMP(6) NULL,
+    deleted_date       TIMESTAMP(6) NULL,
+    created_by         VARCHAR(255) NULL,
+    last_modified_by   VARCHAR(255) NULL
+);
 CREATE TABLE seat
 (
     seat_id            BIGINT AUTO_INCREMENT PRIMARY KEY,
-    grade              VARCHAR(15)  NOT NULL,
     seat_number        VARCHAR(15)  NOT NULL,
-    price              INT          NOT NULL,
-    performance_id     BIGINT       NOT NULL,
+    grade_seat_id      BIGINT       NOT NULL,
     is_reserved        BOOLEAN      NOT NULL,
-    place_id           BIGINT       NOT NULL,
     created_date       TIMESTAMP(6) NULL,
     last_modified_date TIMESTAMP(6) NULL,
     deleted_date       TIMESTAMP(6) NULL,
     created_by         VARCHAR(255) NULL,
     last_modified_by   VARCHAR(255) NULL,
-    CONSTRAINT fk_place_seat FOREIGN KEY (place_id) REFERENCES place (place_id)
+    CONSTRAINT fk_grade_seat_seat FOREIGN KEY (grade_seat_id) REFERENCES grade_seat (grade_seat_id)
 );
 CREATE TABLE reservation
 (
