@@ -16,7 +16,7 @@ class ReservationDomainService(
         lock(SEAT_LOCK_KEY, "${dto.performanceId}", "${dto.seats}") {
             val seatNumbers = dto.seats.map { it.seatNumber }
             val seats = seatRepository
-                .findByPerformanceIdAndSeatNumberIn(dto.performanceId, seatNumbers)
+                .findByGradeSeatPerformanceIdAndSeatNumberIn(dto.performanceId, seatNumbers)
                 .onEach {
                     it.validateIsReserved()
                 }

@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.Query
 
 interface SeatRepository : JpaRepository<Seat, Long> {
 
-    fun findByPerformanceIdAndSeatNumberIn(
+    fun findByGradeSeatPerformanceIdAndSeatNumberIn(
         performanceId: Long,
         seatNumbers: List<String>
     ): List<Seat>
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Seat s SET s.isReserved = true WHERE s.performanceId = :performanceId AND s.seatNumber IN :seatNumbers")
+    @Query("UPDATE Seat s SET s.isReserved = true WHERE s.gradeSeat.performance.id = :performanceId AND s.seatNumber IN :seatNumbers")
     fun bulkUpdateReserveSeats(performanceId: Long, seatNumbers: List<String>)
 }

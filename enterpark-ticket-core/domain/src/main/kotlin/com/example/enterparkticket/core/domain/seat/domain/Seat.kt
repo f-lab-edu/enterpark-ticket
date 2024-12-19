@@ -7,22 +7,12 @@ import jakarta.persistence.*
 @Entity
 class Seat(
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false, length = 15)
-    var grade: GradeType,
-
     @Column(nullable = false, length = 15)
     var seatNumber: String,
 
-    @Column(nullable = false)
-    var price: Int,
-
-    @Column(nullable = false)
-    var performanceId: Long,
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id")
-    var place: Place? = null,
+    @JoinColumn(name = "grade_seat_id")
+    var gradeSeat: GradeSeat? = null,
 
     @Column(nullable = false)
     var isReserved: Boolean = false,
