@@ -22,6 +22,7 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.extensions.testcontainers.perSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationEventPublisher
 import java.time.LocalDate
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
@@ -37,6 +38,7 @@ class ReservationConcurrencyTest @Autowired constructor(
     private val gradeSeatRepository: GradeSeatRepository,
     private val seatRepository: SeatRepository,
     private val reservationRepository: ReservationRepository,
+    private val publisher: ApplicationEventPublisher,
 ) : BehaviorSpec({
 
     val redis = install(RedisExtension())
@@ -50,7 +52,8 @@ class ReservationConcurrencyTest @Autowired constructor(
     beforeTest {
         executorService = Executors.newFixedThreadPool(nThreads)
         countDownLatch = CountDownLatch(nThreads)
-        reservationDomainService = ReservationDomainService(seatRepository, reservationRepository)
+        reservationDomainService =
+            ReservationDomainService(seatRepository, reservationRepository, publisher)
     }
 
     Given("동시성 티켓 예매") {

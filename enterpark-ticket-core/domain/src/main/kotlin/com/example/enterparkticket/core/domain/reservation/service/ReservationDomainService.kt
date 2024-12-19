@@ -1,15 +1,18 @@
 package com.example.enterparkticket.core.domain.reservation.service
 
 import com.example.enterparkticket.core.domain.common.aop.lock
+import com.example.enterparkticket.core.domain.reservation.event.ReservationWaitingPaymentEvent
 import com.example.enterparkticket.core.domain.reservation.repository.ReservationRepository
 import com.example.enterparkticket.core.domain.reservation.service.dto.CreateReservationDto
 import com.example.enterparkticket.core.domain.seat.repository.SeatRepository
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
 class ReservationDomainService(
     private val seatRepository: SeatRepository,
     private val reservationRepository: ReservationRepository,
+    private val publisher: ApplicationEventPublisher,
 ) {
 
     fun createReservation(userId: Long, dto: CreateReservationDto) {
@@ -24,7 +27,9 @@ class ReservationDomainService(
             seatRepository.bulkUpdateReserveSeats(dto.performanceId, seatNumbers)
 
             val reservations = seats.map { dto.toReservationEntity(userId, it.id) }
+            val reservationIds = reservations.map { it.id }
             reservationRepository.saveAll(reservations)
+            publisher.publishEvent(ReservationWaitingPaymentEvent(reservationIds))
         }
     }
 
