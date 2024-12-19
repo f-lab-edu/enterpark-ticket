@@ -6,9 +6,9 @@ import jakarta.persistence.*
 
 @Entity
 @Table(
-    indexes = [Index(
-        name = "idx_grade_seat_id_seat_number",
-        columnList = "grade_seat_id, seat_number",
+    uniqueConstraints = [UniqueConstraint(
+        name = "unique_grade_seat_id_seat_number",
+        columnNames = ["grade_seat_id", "seat_number"],
     )]
 )
 class Seat(

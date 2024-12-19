@@ -105,7 +105,7 @@ CREATE TABLE seat
     created_by         VARCHAR(255) NULL,
     last_modified_by   VARCHAR(255) NULL,
     CONSTRAINT fk_grade_seat_seat FOREIGN KEY (grade_seat_id) REFERENCES grade_seat (grade_seat_id),
-    INDEX idx_grade_seat_id_seat_number (grade_seat_id, seat_number)
+    UNIQUE unique_grade_seat_id_seat_number (grade_seat_id, seat_number)
 );
 CREATE TABLE reservation
 (
