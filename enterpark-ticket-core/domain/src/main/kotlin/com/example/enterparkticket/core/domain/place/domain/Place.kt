@@ -1,4 +1,4 @@
-package com.example.enterparkticket.core.domain.seat.domain
+package com.example.enterparkticket.core.domain.place.domain
 
 import com.example.enterparkticket.core.domain.common.BaseEntity
 import jakarta.persistence.*
