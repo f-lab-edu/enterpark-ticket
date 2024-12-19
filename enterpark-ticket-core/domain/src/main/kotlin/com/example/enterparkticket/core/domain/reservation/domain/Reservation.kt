@@ -4,6 +4,12 @@ import com.example.enterparkticket.core.domain.common.BaseEntity
 import jakarta.persistence.*
 
 @Entity
+@Table(
+    indexes = [Index(
+        name = "idx_user_id_performance_id",
+        columnList = "user_id, performance_id",
+    )]
+)
 class Reservation(
 
     @Enumerated(value = EnumType.STRING)
@@ -22,8 +28,6 @@ class Reservation(
 
     @Column(nullable = false)
     var seatId: Long?,
-
-    // todo 결제 정보
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

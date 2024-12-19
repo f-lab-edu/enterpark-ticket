@@ -5,6 +5,7 @@ import com.example.enterparkticket.core.domain.performance.domain.Performance
 import jakarta.persistence.*
 
 @Entity
+@Table(indexes = [Index(name = "idx_performance_id", columnList = "performance_id")])
 class GradeSeat(
 
     @Enumerated(value = EnumType.STRING)
