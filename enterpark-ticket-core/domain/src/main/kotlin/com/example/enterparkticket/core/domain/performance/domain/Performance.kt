@@ -1,6 +1,7 @@
 package com.example.enterparkticket.core.domain.performance.domain
 
 import com.example.enterparkticket.core.domain.common.BaseEntity
+import com.example.enterparkticket.core.domain.performance.exception.AgeLimitException
 import jakarta.persistence.*
 import java.time.LocalDate
 
@@ -36,4 +37,13 @@ class Performance(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "performance_id")
     var id: Long? = null,
-) : BaseEntity()
+) : BaseEntity() {
+
+    fun validateUserAge(birthDate: LocalDate) {
+        val currentDate = LocalDate.now()
+        val userAge = currentDate.year - birthDate.year + 1
+        if (userAge < ageLimit.age) {
+            throw AgeLimitException()
+        }
+    }
+}
