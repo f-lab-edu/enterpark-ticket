@@ -3,6 +3,7 @@ package com.example.enterparkticket.core.domain.reservation.service
 import com.example.enterparkticket.core.domain.performance.domain.AgeLimitType
 import com.example.enterparkticket.core.domain.performance.domain.Performance
 import com.example.enterparkticket.core.domain.performance.repository.PerformanceRepository
+import com.example.enterparkticket.core.domain.performance.service.PerformanceDomainService
 import com.example.enterparkticket.core.domain.reservation.config.DomainSpringBootTest
 import com.example.enterparkticket.core.domain.reservation.config.RedisExtension
 import com.example.enterparkticket.core.domain.reservation.domain.TicketReceiptType
@@ -16,6 +17,12 @@ import com.example.enterparkticket.core.domain.seat.domain.Seat
 import com.example.enterparkticket.core.domain.place.repository.PlaceRepository
 import com.example.enterparkticket.core.domain.seat.repository.GradeSeatRepository
 import com.example.enterparkticket.core.domain.seat.repository.SeatRepository
+import com.example.enterparkticket.core.domain.user.domain.GenderType
+import com.example.enterparkticket.core.domain.user.domain.OAuthInfo
+import com.example.enterparkticket.core.domain.user.domain.OAuthProvider
+import com.example.enterparkticket.core.domain.user.domain.User
+import com.example.enterparkticket.core.domain.user.repository.UserRepository
+import com.example.enterparkticket.core.domain.user.service.UserDomainService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.kotest.core.extensions.install
 import io.kotest.core.spec.style.BehaviorSpec
@@ -33,6 +40,7 @@ private val logger = KotlinLogging.logger {}
 
 @DomainSpringBootTest
 class ReservationConcurrencyTest @Autowired constructor(
+    private val userRepository: UserRepository,
     private val placeRepository: PlaceRepository,
     private val performanceRepository: PerformanceRepository,
     private val gradeSeatRepository: GradeSeatRepository,
@@ -48,15 +56,34 @@ class ReservationConcurrencyTest @Autowired constructor(
     lateinit var executorService: ExecutorService
     lateinit var countDownLatch: CountDownLatch
     lateinit var reservationDomainService: ReservationDomainService
+    lateinit var userDomainService: UserDomainService
+    lateinit var performanceDomainService: PerformanceDomainService
 
     beforeTest {
         executorService = Executors.newFixedThreadPool(nThreads)
         countDownLatch = CountDownLatch(nThreads)
+        userDomainService = UserDomainService(userRepository)
+        performanceDomainService = PerformanceDomainService(performanceRepository)
         reservationDomainService =
-            ReservationDomainService(seatRepository, reservationRepository, publisher)
+            ReservationDomainService(
+                userDomainService,
+                performanceDomainService,
+                seatRepository,
+                reservationRepository,
+                publisher
+            )
     }
 
     Given("동시성 티켓 예매") {
+        val user = User(
+            OAuthInfo(OAuthProvider.KAKAO, 1L),
+            "이름",
+            "abc@email.com",
+            "010-1111-2222",
+            LocalDate.of(LocalDate.now().year - 12, 1, 1),
+            GenderType.FEMALE
+        )
+        userRepository.save(user)
         val place = Place("고척스카이돔", "서울특별시 구로구 경인로 430")
         placeRepository.save(place)
         val performance = Performance(
