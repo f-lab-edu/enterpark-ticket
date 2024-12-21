@@ -1,9 +1,13 @@
 package com.example.enterparkticket.core.domain.config.redis
 
 import com.example.enterparkticket.core.domain.config.EnterparkTicketConfig
+import org.redisson.Redisson
+import org.redisson.api.RedissonClient
+import org.redisson.config.Config
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.domain.EntityScan
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisPassword
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
@@ -24,6 +28,7 @@ class RedisConfig(
 ) : EnterparkTicketConfig {
 
     @Bean
+    @Primary
     fun customRedisConnectionFactory(): RedisConnectionFactory {
         val config = RedisStandaloneConfiguration(host, port).apply {
             password = RedisPassword.of(this@RedisConfig.password)
@@ -38,5 +43,20 @@ class RedisConfig(
             keySerializer = StringRedisSerializer()
             valueSerializer = StringRedisSerializer()
         }
+    }
+
+    @Bean
+    @Primary
+    fun redissonClient(): RedissonClient {
+        val config = Config().apply {
+            useSingleServer()
+                .setAddress("$REDISSON_HOST_PREFIX$host:$port")
+                .setPassword(password)
+        }
+        return Redisson.create(config)
+    }
+
+    companion object {
+        const val REDISSON_HOST_PREFIX = "redis://"
     }
 }
