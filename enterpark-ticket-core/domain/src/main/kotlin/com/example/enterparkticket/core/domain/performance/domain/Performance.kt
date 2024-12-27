@@ -41,9 +41,13 @@ class Performance(
 
     fun validateUserAge(birthDate: LocalDate) {
         val currentDate = LocalDate.now()
-        val userAge = currentDate.year - birthDate.year + 1
+        val userAge = currentDate.year - birthDate.year + AGE_OFFSET
         if (userAge < ageLimit.age) {
             throw AgeLimitException()
         }
+    }
+
+    companion object {
+        const val AGE_OFFSET = 1
     }
 }
