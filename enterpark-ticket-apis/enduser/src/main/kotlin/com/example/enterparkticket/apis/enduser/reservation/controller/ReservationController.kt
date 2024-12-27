@@ -4,7 +4,7 @@ import com.example.enterparkticket.apis.enduser.config.jwt.dto.AuthDetails
 import com.example.enterparkticket.apis.enduser.config.jwt.dto.AuthUser
 import com.example.enterparkticket.apis.enduser.config.jwt.dto.toUserId
 import com.example.enterparkticket.apis.enduser.reservation.dto.request.CreateReservationRequest
-import com.example.enterparkticket.core.domain.reservation.service.ReservationDomainService
+import com.example.enterparkticket.apis.enduser.reservation.service.CreateUseCase
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
@@ -17,17 +17,14 @@ import org.springframework.web.bind.annotation.RestController
 @Validated
 @RestController
 @RequestMapping("/v1/reservations")
-class ReservationController(private val reservationDomainService: ReservationDomainService) {
+class ReservationController(private val createUseCase: CreateUseCase) {
 
     @PostMapping
     fun createReservation(
         @AuthUser user: AuthDetails,
         @Valid @RequestBody request: CreateReservationRequest,
     ): ResponseEntity<String> {
-        reservationDomainService.createReservation(
-            user.toUserId(),
-            request.toCreateReservationDto()
-        )
+        createUseCase.createReservation(user.toUserId(), request)
         return ResponseEntity.status(CREATED).body("예매가 완료되었습니다.")
     }
 }
