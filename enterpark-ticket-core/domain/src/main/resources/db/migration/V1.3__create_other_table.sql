@@ -53,21 +53,33 @@ CREATE TABLE IF NOT EXISTS place
     created_by         VARCHAR(255) NULL COMMENT '생성자',
     last_modified_by   VARCHAR(255) NULL COMMENT '수정자'
 );
-CREATE TABLE IF NOT EXISTS seat
+CREATE TABLE grade_seat
 (
-    seat_id            BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 id',
+    grade_seat_id      BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 등급 id',
     grade              VARCHAR(15)  NOT NULL COMMENT '등급',
-    seat_number        VARCHAR(15)  NOT NULL COMMENT '좌석 번호',
+    seat_count         INT          NOT NULL COMMENT '좌석 수',
     price              INT          NOT NULL COMMENT '가격',
     performance_id     BIGINT       NOT NULL COMMENT '공연 id',
-    is_reserved        BOOLEAN      NOT NULL COMMENT '예매 여부',
-    place_id           BIGINT       NOT NULL COMMENT '장소 id',
     created_date       TIMESTAMP(6) NULL COMMENT '생성일',
     last_modified_date TIMESTAMP(6) NULL COMMENT '수정일',
     deleted_date       TIMESTAMP(6) NULL COMMENT '삭제일',
     created_by         VARCHAR(255) NULL COMMENT '생성자',
     last_modified_by   VARCHAR(255) NULL COMMENT '수정자',
-    CONSTRAINT fk_place_seat FOREIGN KEY (place_id) REFERENCES place (place_id)
+    INDEX idx_performance_id (performance_id)
+);
+CREATE TABLE IF NOT EXISTS seat
+(
+    seat_id            BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 id',
+    seat_number        VARCHAR(15)  NOT NULL COMMENT '좌석 번호',
+    grade_seat_id      BIGINT       NOT NULL COMMENT '좌석 등급 id',
+    is_reserved        BOOLEAN      NOT NULL COMMENT '예매 여부',
+    created_date       TIMESTAMP(6) NULL COMMENT '생성일',
+    last_modified_date TIMESTAMP(6) NULL COMMENT '수정일',
+    deleted_date       TIMESTAMP(6) NULL COMMENT '삭제일',
+    created_by         VARCHAR(255) NULL COMMENT '생성자',
+    last_modified_by   VARCHAR(255) NULL COMMENT '수정자',
+    CONSTRAINT fk_grade_seat_seat FOREIGN KEY (grade_seat_id) REFERENCES grade_seat (grade_seat_id),
+    UNIQUE unique_grade_seat_id_seat_number (grade_seat_id, seat_number)
 );
 CREATE TABLE IF NOT EXISTS reservation
 (
@@ -81,5 +93,6 @@ CREATE TABLE IF NOT EXISTS reservation
     last_modified_date TIMESTAMP(6) NULL COMMENT '수정일',
     deleted_date       TIMESTAMP(6) NULL COMMENT '삭제일',
     created_by         VARCHAR(255) NULL COMMENT '생성자',
-    last_modified_by   VARCHAR(255) NULL COMMENT '수정자'
+    last_modified_by   VARCHAR(255) NULL COMMENT '수정자',
+    INDEX idx_user_id_performance_id (user_id, performance_id)
 );
